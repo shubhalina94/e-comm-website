@@ -5,13 +5,16 @@ import Logo from './Logo'; // Importing the logo image
 import { IoSearch } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineShoppingBag } from "react-icons/hi";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className='h-16 shadow-md'>
+    <header className='h-16 shadow-md bg-white'>
       <div className="h-full container mx-5 flex items-center px-1 justify-between"> 
         <div className=''>
-          <Logo w={90} h={60}/>
+          <Link to={"/"}>
+            <Logo w={90} h={60}/>
+          </Link>
         </div>
 
         <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within: shadow pl-2'>
@@ -37,7 +40,7 @@ const Header = () => {
           </div>
 
           <div>
-            <button className='px-3 py-1 bg-yellow-400 rounded-full hover:bg-yellow-600'>Login</button>
+            <Link to="/Login" className='px-3 py-1 bg-yellow-400 rounded-full hover:bg-yellow-600'>Login</Link>
           </div>
         </div>
       </div>
