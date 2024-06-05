@@ -1,13 +1,42 @@
 // Header.js
 
-import React from 'react';
+import React, {useState} from 'react';
 import Logo from './Logo'; // Importing the logo image
 import { IoSearch } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import SummaryApi from '../common';
+import {toast} from 'react-toastify'
+import {setUserDetails} from '../store/userSlice';
 const Header = () => {
+
+  const user = useSelector(state => state?.user?.user)
+  const dispatch=useDispatch()
+  const [menuDisplay,setMenuDisplay] = useState(false)
+
+  console.log("user header",user)
+
+
+  const handleLogout =async()=>{
+    const fetchData=await fetch(SummaryApi.logout_user.url,{
+      method : SummaryApi.logout_user.method,
+      credentials : 'include'
+    })
+
+    const data=await fetchData.json()
+
+    if(data.success){
+      toast.success(data.message)
+      dispatch(setUserDetails(null))
+      
+    }
+
+    if(data.error){
+      toast.error(data.message)
+    }
+  }
   return (
     <header className='h-16 shadow-md bg-white'>
       <div className="h-full container mx-5 flex items-center px-1 justify-between"> 
@@ -26,8 +55,21 @@ const Header = () => {
 
         <div className='flex items-center gap-8 mr-8'>
 
-          <div className='text-2xl cursor-pointer'>
-            <FaRegUser />
+          <div className='relative flex justify-center'>
+            <div className='text-2xl cursor-pointer relative justify-center ' onClick={()=>setMenuDisplay(preve => !preve)}>
+              <FaRegUser />
+            </div>
+
+          {
+            menuDisplay && (
+              <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded'>
+            <nav>
+              <Link to={"admin-panel"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Admin Panel</Link>
+            </nav>
+          </div>
+            )
+          }
+    
           </div>
 
           <div className='text-3xl relative'>
@@ -40,7 +82,16 @@ const Header = () => {
           </div>
 
           <div>
-            <Link to="/Login" className='px-3 py-1 bg-yellow-400 rounded-full hover:bg-yellow-600'>Login</Link>
+
+            {
+              user?._id ? (
+                <button onClick={handleLogout} className='px-3 py-1 bg-yellow-400 rounded-full hover:bg-yellow-600'>Logout</button>
+              )
+              : (
+              <Link to="/Login" className='px-3 py-1 bg-yellow-400 rounded-full hover:bg-yellow-600'>Login</Link>
+              )
+            }
+            
           </div>
         </div>
       </div>
