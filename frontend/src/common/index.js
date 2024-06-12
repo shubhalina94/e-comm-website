@@ -1,3 +1,4 @@
+// import updateUser from "../../../backend/controller/updateUser"
 
 const backendDomain = "http://localhost:8000"
 
@@ -21,7 +22,11 @@ const SummaryApi={
     allUser :{
         url: `${backendDomain}/api/all-user`,
         method: "get"
-    }
+    },
+    updateUser : {
+        url : `${backendDomain}/api/update-user`,
+        method : "post"
+    },
 }
 
 export default SummaryApi
