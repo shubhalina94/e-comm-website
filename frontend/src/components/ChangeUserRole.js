@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const ChangeUserRole = ({
     name,
     email,
-    role,
+    role, 
     userId,
     onClose,
     callFunc,

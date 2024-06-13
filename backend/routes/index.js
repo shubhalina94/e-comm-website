@@ -9,7 +9,7 @@ const userLogout = require('../controller/userLogout')
 const allUsers = require('../controller/allUsers')
 const updateUser = require('../controller/updateUser')
 const UploadProductController = require('../controller/uploadProduct')
-const  getProductController=require('../controller/getProduct')
+const getProductController=require('../controller/getProduct')
 
 router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)

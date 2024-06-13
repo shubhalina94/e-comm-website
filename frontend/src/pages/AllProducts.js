@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import UploadProduct from '../components/UploadProduct'
 import SummaryApi from '../common'
+import AdminProductCard from '../components/AdminProductCard'
 
 const AllProducts = () => {
 
@@ -23,14 +24,14 @@ const AllProducts = () => {
         <h2 className='font-bold text-lg'>All Products</h2>
         <button className='border-2 border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white transition-all py-1 px-3 rounded-full' onClick={()=>setOpenUploadProduct(true)}>Upload Product</button>
       </div>
+
       {/**all product */}
-       <div>
+       <div className='flex items-center gap-5 py-4'>
         {
            allProduct.map((product,index)=>{
              return(
-              <div>
-                <img src={product[0]} width={100} height={100}/>
-                </div>
+              <AdminProductCard data={product} key={index+"allProduct"}/>
+              
              )
 
            })

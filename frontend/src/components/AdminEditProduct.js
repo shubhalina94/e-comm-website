@@ -8,100 +8,101 @@ import { MdDelete } from "react-icons/md";
 import SummaryApi from '../common';
 import {toast} from 'react-toastify';
 
-const UploadProduct = ({
-    onClose
+const AdminEditProduct = ({
+    onClose,
+    productData,
+
 }) => {
-
-const [data,setData] = useState({
-    productName : "",
-    brandName : "",
-    category : "",
-    productImage : [],
-    description :"",
-    price : "",
-    sellingPrice :""
-
-})
-//const [uploadProductImageInput,setUploadProductImageInput] = useState("")
-
-const [openFullScreenImage, setOpenFullScreenImage] =useState(false)
-
-const [fullScreenImage, setFullScreenImage] =useState("")
-
-const handleOnChange =(e)=>{
-    const {name,value}=e.target
-
-    setData((preve)=>{
-        return{
-            ...preve,
-            [name] : value
-        }
-    })
-
-}
-
-const handleUploadProduct =async(e)=>{
-    const file=e.target.files[0]
-    //setUploadProductImageInput(file.name)
-    //console.log("file",file)
+    const [data,setData] = useState({
+        productName : data?.productName,
+        brandName : data?.brandName,
+        category : data?.category,
+        productImage : data?.productImage || [],
+        description : data?.description,
+        price : data?.price,
+        sellingPrice : data?.sellingPrice
     
-    const uploadImageCloudinary = await uploadImage(file)
-
-    setData((preve)=>{
-        return{
-            ...preve,
-            productImage : [...preve.productImage, uploadImageCloudinary.url]
-        }
     })
-    //console.log("upload image",uploadImageCloudinary.url)
-}
-
-const handleDeleteProductImage = async(index) =>{
-    console.log("image index",index)
-
-    const newProductImage = [...data.productImage]
-    newProductImage.splice(index,1) //to delete 1 image
-
-    setData((preve)=>{
-        return{
-            ...preve,
-            productImage : [...newProductImage]
-        }
-    })
-}
-
-// upload product
-
-const handleSubmit = async(e)=>{
-    e.preventDefault()
+    //const [uploadProductImageInput,setUploadProductImageInput] = useState("")
     
-    const response = await fetch(SummaryApi.uploadProduct.url,{
-        method :SummaryApi.uploadProduct.method,
-        credentials:'include',
-        headers: {
-            "content-type":"application/json"
-        },
-        body : JSON.stringify(data)
-
-    })
-    const responseData = await response.json()
-
-    if(responseData.success){
-        toast.success(responseData?.message)
-        onClose()
+    const [openFullScreenImage, setOpenFullScreenImage] =useState(false)
+    
+    const [fullScreenImage, setFullScreenImage] =useState("")
+    
+    const handleOnChange =(e)=>{
+        const {name,value}=e.target
+    
+        setData((preve)=>{
+            return{
+                ...preve,
+                [name] : value
+            }
+        })
+    
     }
-
-
-    if(responseData.error){
-        toast.error(responseData?.message)
+    
+    const handleUploadProduct =async(e)=>{
+        const file=e.target.files[0]
+        //setUploadProductImageInput(file.name)
+        //console.log("file",file)
+        
+        const uploadImageCloudinary = await uploadImage(file)
+    
+        setData((preve)=>{
+            return{
+                ...preve,
+                productImage : [...preve.productImage, uploadImageCloudinary.url]
+            }
+        })
+        //console.log("upload image",uploadImageCloudinary.url)
     }
-
-}
+    
+    const handleDeleteProductImage = async(index) =>{
+        console.log("image index",index)
+    
+        const newProductImage = [...data.productImage]
+        newProductImage.splice(index,1) //to delete 1 image
+    
+        setData((preve)=>{
+            return{
+                ...preve,
+                productImage : [...newProductImage]
+            }
+        })
+    }
+    
+    // upload product
+    
+    const handleSubmit = async(e)=>{
+        e.preventDefault()
+        
+        const response = await fetch(SummaryApi.uploadProduct.url,{
+            method :SummaryApi.uploadProduct.method,
+            credentials:'include',
+            headers: {
+                "content-type":"application/json"
+            },
+            body : JSON.stringify(data)
+    
+        })
+        const responseData = await response.json()
+    
+        if(responseData.success){
+            toast.success(responseData?.message)
+            onClose()
+        }
+    
+    
+        if(responseData.error){
+            toast.error(responseData?.message)
+        }
+    
+    }
   return (
     <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
         <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden'>
             <div className='felx justify-between items-center pb-3'>
-                <h2 className='font-bold text-lg'>Upload Product</h2>
+                <h2 className='font-bold text-lg'>Edit Product</h2>
                 <div className='w-fit ml-auto text-2xl hover:text-yellow-600 cursor-pointer' onClick={onClose}>
                     <CgClose />
                 </div>
@@ -242,4 +243,4 @@ const handleSubmit = async(e)=>{
   )
 }
 
-export default UploadProduct
+export default AdminEditProduct
