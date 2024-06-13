@@ -5,6 +5,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../helpers/uploadImage';
 import DisplayImage from './DisplayImage';
 import { MdDelete } from "react-icons/md";
+import SummaryApi from '../common';
+import {toast} from 'react-toastify';
 
 const UploadProduct = ({
     onClose
@@ -70,9 +72,30 @@ const handleDeleteProductImage = async(index) =>{
 
 // upload product
 
-const handleSubmit = (e)=>{
+const handleSubmit = async(e)=>{
     e.preventDefault()
-    console.log("data",data)
+    
+    const response = await fetch(SummaryApi.uploadProduct.url,{
+        method :SummaryApi.uploadProduct.method,
+        Credential:'include',
+        headers: {
+            "content-type":"application/json"
+        },
+        body : JSON.stringify(data)
+
+    })
+    const responseData = await response.json()
+
+    if(responseData.success){
+        toast.success(responseData?.message)
+        onClose()
+    }
+
+
+    if(responseData.error){
+        toast.error(responseData?.message)
+    }
+
 }
   return (
     <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
@@ -94,7 +117,7 @@ const handleSubmit = (e)=>{
                     value={data.productName} 
                     onChange={handleOnChange}
                     className='p-2 bg-slate-100 border rounded'
-                    
+                    required
                 />
 
                 <label htmlFor='brandName' className='mt-3'>Brand Name :</label>
@@ -106,11 +129,11 @@ const handleSubmit = (e)=>{
                     value={data.brandName} 
                     onChange={handleOnChange}
                     className='p-2 bg-slate-100 border rounded'
-                    
+                    required
                 />  
 
                 <label htmlFor='category' className='mt-3'>Category :</label>
-                <select value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
+                <select  required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
                     <option value={""}>Select Category</option>
                     {
                         productCategory.map((el,index)=>{
@@ -179,6 +202,7 @@ const handleSubmit = (e)=>{
                     value={data.price} 
                     onChange={handleOnChange}
                     className='p-2 bg-slate-100 border rounded'
+                    required
                     
                 />  
 
@@ -191,6 +215,7 @@ const handleSubmit = (e)=>{
                     value={data.sellingPrice} 
                     onChange={handleOnChange}
                     className='p-2 bg-slate-100 border rounded'
+                    required
                     
                 />  
 
