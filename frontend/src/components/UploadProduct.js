@@ -9,7 +9,8 @@ import SummaryApi from '../common';
 import {toast} from 'react-toastify';
 
 const UploadProduct = ({
-    onClose
+    onClose,
+    fetchData
 }) => {
 
 const [data,setData] = useState({
@@ -89,6 +90,7 @@ const handleSubmit = async(e)=>{
     if(responseData.success){
         toast.success(responseData?.message)
         onClose()
+        fetchData()
     }
 
 
@@ -220,7 +222,12 @@ const handleSubmit = async(e)=>{
                 />  
 
                 <label htmlFor='descripion' className='mt-3'> Descripion :</label>
-                <textarea className='h-28 bg-slate-100 border resize-none p-1' placeholder='enter product description' rows={3} onChange={handleOnChange} name='description'>
+                <textarea className='h-28 bg-slate-100 border resize-none p-1' 
+                placeholder='enter product description'
+                 rows={3} onChange={handleOnChange}
+                  name='description'
+                  value={data.description}
+                  >
 
                 </textarea>
 

@@ -11,16 +11,17 @@ import {toast} from 'react-toastify';
 const AdminEditProduct = ({
     onClose,
     productData,
-
+    fetchdata
 }) => {
     const [data,setData] = useState({
-        productName : data?.productName,
-        brandName : data?.brandName,
-        category : data?.category,
-        productImage : data?.productImage || [],
-        description : data?.description,
-        price : data?.price,
-        sellingPrice : data?.sellingPrice
+        ...productData,
+        productName : productData?.productName,
+        brandName : productData?.brandName,
+        category : productData?.category,
+        productImage :productData?.productImage || [],
+        description : productData?.description,
+        price : productData?.price,
+        sellingPrice :productData?.sellingPrice
     
     })
     //const [uploadProductImageInput,setUploadProductImageInput] = useState("")
@@ -76,8 +77,8 @@ const AdminEditProduct = ({
     const handleSubmit = async(e)=>{
         e.preventDefault()
         
-        const response = await fetch(SummaryApi.uploadProduct.url,{
-            method :SummaryApi.uploadProduct.method,
+        const response = await fetch(SummaryApi.updateProduct.url,{
+            method :SummaryApi.updateProduct.method,
             credentials:'include',
             headers: {
                 "content-type":"application/json"
@@ -90,6 +91,7 @@ const AdminEditProduct = ({
         if(responseData.success){
             toast.success(responseData?.message)
             onClose()
+            fetchdata()
         }
     
     
@@ -221,11 +223,17 @@ const AdminEditProduct = ({
                 />  
 
                 <label htmlFor='descripion' className='mt-3'> Descripion :</label>
-                <textarea className='h-28 bg-slate-100 border resize-none p-1' placeholder='enter product description' rows={3} onChange={handleOnChange} name='description'>
+                <textarea className='h-28 bg-slate-100 border resize-none p-1' 
+                placeholder='enter product description'
+                rows={3} 
+                onChange={handleOnChange} 
+                name='description'
+                value={data.description}
+                >
 
                 </textarea>
 
-                <button className='px-3 py-2 bg-yellow-500 text-white mb-10 hover:bg-yellow-600'>Upload Product</button>
+                <button className='px-3 py-2 bg-yellow-500 text-white mb-10 hover:bg-yellow-600'>Update Product</button>
             </form>
 
 
