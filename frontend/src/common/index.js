@@ -1,4 +1,6 @@
-// import updateUser from "../../../backend/controller/updateUser"
+ //import updateUser from "../../../backend/controller/updateUser"
+
+import getCategoryWiseProduct from "../../../backend/controller/product/getCategoryWiseProduct"
 
 const backendDomain = "http://localhost:8000"
 
@@ -43,7 +45,11 @@ const SummaryApi={
     categoryProduct : {
         url : `${backendDomain}/api/get-categoryProduct`,
         method : 'get'
-    }
+    },
+     categoryWiseProduct : {
+         url : `${backendDomain}/api/category-product`,
+        method : 'post'
+     }
 }
 
 export default SummaryApi
