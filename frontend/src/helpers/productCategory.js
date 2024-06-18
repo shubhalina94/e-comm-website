@@ -1,7 +1,7 @@
 
 
 const productCategory =[
-    {id : 1, label :"airdopes", CSSMathValue : "airdopes"},
+    {id : 1, label :"Airdopes", CSSMathValue : "airdopes"},
     { id : 2, label : "Camera", value : "camera"},
     { id : 3, label : "Earphones", value : "earphones"},
     { id : 4, label : "Mobiles", value : "mobiles"},

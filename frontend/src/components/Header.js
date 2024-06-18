@@ -1,5 +1,3 @@
-// Header.js
-
 import React, {useState} from 'react';
 import Logo from './Logo'; // Importing the logo image
 import { IoSearch } from "react-icons/io5";
@@ -39,7 +37,7 @@ const Header = () => {
     }
   }
   return (
-    <header className='h-16 shadow-md bg-white'>
+    <header className='h-16 shadow-md bg-white fixed w-full z-40'>
       <div className="h-full container mx-5 flex items-center px-1 justify-between"> 
         <div className=''>
           <Link to={"/"}>
