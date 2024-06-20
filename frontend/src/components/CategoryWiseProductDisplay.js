@@ -11,12 +11,11 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
     const [loading,setLoading] = useState(true)
     const loadingList = new Array(13).fill(null)
 
-   
-
     const { fetchUserAddToCart } = useContext(Context)
 
     const handleAddToCart = async(e,id)=>{
        await addToCart(e,id)
+    
        fetchUserAddToCart()
     }
 
@@ -25,7 +24,7 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
         const categoryProduct = await fetchCategoryWiseProduct(category)
         setLoading(false)
 
-        //console.log("horizontal data",categoryProduct.data)
+        console.log("horizontal data",categoryProduct.data)
         setData(categoryProduct?.data)
     }
 
@@ -34,7 +33,9 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
     },[])
 
    
-
+    // useEffect(() => {
+    //     fetchData();
+    //   }, [category]); 
 
   return (
     <div className='container mx-auto px-4 my-6 relative'>
@@ -80,7 +81,7 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
                                         <p className='text-yellow-500 font-medium'>{ displayINRCurrency(product?.sellingPrice) }</p>
                                         <p className='text-slate-500 line-through'>{ displayINRCurrency(product?.price)  }</p>
                                     </div>
-                                    <button className='text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-0.5 rounded-full' onClick={(e)=>addToCart(e,product?._id)}>Add to Cart</button>
+                                    <button className='text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-0.5 rounded-full' onClick={(e)=>handleAddToCart(e,product?._id)}>Add to Cart</button>
                                 </div>
                             </Link>
                         )
@@ -96,3 +97,5 @@ const CategoryWiseProductDisplay = ({category, heading}) => {
 }
 
 export default CategoryWiseProductDisplay
+
+

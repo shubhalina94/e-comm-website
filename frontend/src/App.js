@@ -14,6 +14,8 @@ import { useDispatch } from 'react-redux';
 function App() {
 
   const dispatch = useDispatch() //redux
+  const [cartProductCount, setCartProductCount] = useState(0)
+
   const fetchUserDetails = async()=>{
     const dataResponse = await fetch(SummaryApi.current_user.url,{
       method : SummaryApi.current_user.method,
@@ -29,19 +31,35 @@ function App() {
     // console.log("data-user",dataResponse)
   }
 
+  const fetchUserAddToCart = async()=>{
+    const dataResponse = await fetch(SummaryApi.addToCartProductCount.url,{
+      method : SummaryApi.addToCartProductCount.method,
+      credentials : 'include' //if 'include' is not mentioned , then cookies will not be sent to the backend
+    })
+
+    const dataApi = await dataResponse.json()
+
+    console.log("dataApi",dataApi)
+    setCartProductCount(dataApi?.data?.count)
+  }
+
   useEffect(()=>{
     /** user Details */ 
     fetchUserDetails()
- 
+
+
+    fetchUserAddToCart()
 
   },[])
 
   return (
     <>
       <Context.Provider value={{
-        fetchUserDetails 
+        fetchUserDetails ,
+        cartProductCount,
+        fetchUserAddToCart
       }}>
-        <ToastContainer />
+        <ToastContainer/>
 
         <Header />
         <main className="min-h-[calc(100vh-120px)] pt-16">

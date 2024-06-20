@@ -172,7 +172,7 @@ const ProductDetails = () => {
             ) : 
             (
               <div className='flex flex-col gap-1'>
-                <p className='bg-red-200 text-yellow-600 px-2 rounded-full inline-block w-fit'>{data?.brandName}</p>
+                <p className='bg-red-200 px-2 rounded-full inline-block w-fit'>{data?.brandName}</p>
                 <h2 className='text-2xl lg:text-4xl font-medium'>{data?.productName}</h2>
                 <p className='capitalize text-slate-400'>{data?.category}</p>
 
@@ -191,7 +191,7 @@ const ProductDetails = () => {
 
                 <div className='flex items-center gap-3 my-2'>
                 <button className='border-2 border-yellow-600 rounded px-3 py-1 min-w-[120px] text-yellow-600 font-medium hover:bg-yellow-600 hover:text-white'>Buy</button>
-                <button className='border-2 border-yellow-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-yellow-600 hover:text-yellow-600 hover:bg-white'>Add To Cart</button>
+                <button className='border-2 border-yellow-4=500 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-yellow-600 hover:text-yellow-500 hover:bg-white'>Add To Cart</button>
                 </div>
 
                 <div>

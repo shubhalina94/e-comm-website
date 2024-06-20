@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Logo from './Logo'; // Importing the logo image
 import { IoSearch } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
@@ -9,6 +9,7 @@ import SummaryApi from '../common';
 import {toast} from 'react-toastify'
 import {setUserDetails} from '../store/userSlice';
 import ROLE from '../common/role';
+import Context from '../context';
 const Header = () => {
 
   const user = useSelector(state => state?.user?.user)
@@ -17,6 +18,7 @@ const Header = () => {
 
   // console.log("user header",user)
 
+  const context= useContext(Context)
 
   const handleLogout =async()=>{
     const fetchData=await fetch(SummaryApi.logout_user.url,{
@@ -36,6 +38,7 @@ const Header = () => {
       toast.error(data.message)
     }
   }
+  console.log("add to cart count",context)
   return (
     <header className='h-16 shadow-md bg-white fixed w-full z-40'>
       <div className="h-full container mx-5 flex items-center px-1 justify-between"> 
@@ -83,15 +86,23 @@ const Header = () => {
     
           </div>
 
-          <div className='text-3xl relative'>
-            <span>
-              <HiOutlineShoppingBag/>
-            </span>
-            <div className='bg-yellow-400 w-5 h-5 rounded-full p-1 flex items-center justify-center absolute top-0 -right-2'>
-              <p className='text-xs'> 0 </p>
-            </div>
-          </div>
 
+          {
+            user?._id && (
+              <Link to={"/cart"} className='text-3xl relative'>
+                <span>
+                  <HiOutlineShoppingBag/>
+                </span>
+           
+                <div className='bg-yellow-400 w-5 h-5 rounded-full p-1 flex items-center justify-center absolute top-0 -right-2'>
+                  <p className='text-xs'> {context?.cartProductCount} </p>
+                </div>
+               
+              </Link>
+
+            )
+          }
+          
           <div>
 
             {
