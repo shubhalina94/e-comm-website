@@ -6,9 +6,7 @@ import { FaStarHalf } from "react-icons/fa";
 import displayINRCurrency from '../helpers/displayCurrency';
 import VerticalCardProduct from '../components/VerticalCardProduct';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
-// import VerticalCardProduct from '../components/VerticalCardProduct';
-// import CategroyWiseProductDisplay from '../components/CategoryWiseProductDisplay';
-// import addToCart from '../helpers/addToCart';
+
 
 
 const ProductDetails = () => {
@@ -58,7 +56,7 @@ const ProductDetails = () => {
 
   useEffect(()=>{
     fetchProductDetails()
-  },[])
+  },[params])
 
   //when the user will click on any of the product image , it should be displyed as the active image(bigger image)
   const handleMouseEnterProduct=(imageURL)=>{
