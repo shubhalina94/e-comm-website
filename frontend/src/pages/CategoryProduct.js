@@ -1,11 +1,70 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 import productCategory from '../helpers/productCategory'
+import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay'
+import VerticalCard from '../components/VerticalCard'
+import SummaryApi from '../common'
 
 const CategoryProduct = () => {
     const params = useParams()
+    const [data,setData] =useState([])
+    const [loading,setLoading]= useState(false)
+    const location=useLocation()
+    const urlSearch= new URLSearchParams(location.search)
+    const urlCategoryListinArray= urlSearch.getAll("category")
+    const urlCategoryListObject ={}
+    urlCategoryListinArray.forEach(el =>{
+      urlCategoryListObject[el]=true
+    })
+
+    console.log("urlCategoryListObject",urlCategoryListObject)
+
+    console.log("urlCategoryListinArray",urlCategoryListinArray)
+
+    const [selectCategory,setSelectCategory]= useState(urlCategoryListObject)
+    const [filterCategoryList,setFilterCategoryList]=useState([])
+
+    const fetchData = async()=>{
+      const response= await fetch(SummaryApi.filterProduct.url,{
+        method :SummaryApi.filterProduct.method,
+        headers:{
+          "content-type":"application/json"
+        },
+        body:JSON.stringify({
+          category:filterCategoryList
+        })
+      })
+      const dataResponse = await response.json()
+
+      setData(dataResponse?.data || [])
+      console.log(dataResponse)
+    }
+    const handleSelectCategory =(e) =>{
+       const {name, value, checked} = e.target
+       setSelectCategory((preve)=>{
+        return{
+          ...preve,
+          [value]:checked
+        }
+       })
+    }
+    useEffect(()=>{
+      fetchData()
+    },[filterCategoryList])
+
     //console.log("category",params.categoryName)
     //{params?.categoryName}
+    useEffect(()=>{
+        const arrayOfCategory = Object.keys(selectCategory).map(categoryKeyName=>{
+          if(selectCategory[categoryKeyName]){
+            return categoryKeyName
+          }
+          return null
+        }).filter(el => el)
+      
+        setFilterCategoryList(arrayOfCategory)
+
+    },[selectCategory])
   return (
     <div className='container mx-auto p-4'>
       {/* desktop version */}
@@ -40,7 +99,7 @@ const CategoryProduct = () => {
                   productCategory.map((categoryName,index)=>{
                     return(
                       <div className='flex items-center gap-3'>
-                        <input type='checkbox' name={"category"} id={categoryName?.value}/>
+                        <input type='checkbox' name={"category"} checked={selectCategory[categoryName?.value]} value={categoryName?.value} id={categoryName?.value}onChange={handleSelectCategory}/>
                         <label htmlFor='categoryName?.value'>{categoryName?.label}</label>
                       </div>
                     )
@@ -53,7 +112,11 @@ const CategoryProduct = () => {
 
           {/* right side */}
           <div>
-            display product
+           {
+            data.length!==0 && !loading && (
+              <VerticalCard data={data} loading={loading}/>
+            )
+           }
           </div>
         </div>
     </div>
