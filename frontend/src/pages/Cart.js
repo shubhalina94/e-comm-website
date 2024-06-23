@@ -38,7 +38,7 @@ const Cart = () => {
     useEffect(()=>{
         setLoading(true)
         handleLoading()
-         setLoading(false)
+        setLoading(false)
     },[])
 
 
